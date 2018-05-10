@@ -1,17 +1,24 @@
+import time
+
+import redis
+from flask import Flask, make_response, jsonify, request
 from queue import Queue
 
 
-class Chore:
-    
-    def __init__(self):
-        pass
+app = Flask(__name__)
+queue = Queue()
 
 
-class Maid:
-    
-    def __init__(self):
-        self.name = ''
-        self.todos = Queue()
-    
-    def do_job(self):
-        pass
+@api.route('/heartbeat', methods=['GET'])
+def heartbeat():
+    result = {
+        'result': True,
+        'message': 'Welcome home, Master!'
+    }
+    return make_response(jsonify(result))
+
+
+@app.route('/order', methods=['POST'])
+def order():
+    action = request.json['action']
+    job_id = queue.enqueue
